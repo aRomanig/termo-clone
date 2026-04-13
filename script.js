@@ -11,6 +11,7 @@ const secret = wordList[getRandomIntInclusive(0, wordList.length - 1)]
  //const secret = 'carta'
 console.log(`DEBUG: A palavra secreta é ${secret}`)
 let tentativas = 0
+let gameEnded = 0
 let tentativasList = [] 
 const keyboardState = {}
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -91,7 +92,7 @@ function renderGuess(word) {
 
 
 function analyseInput() {
-    if (tentativas > 5) {
+    if (tentativas > 5 || gameEnded) {
         return
     }
     let guess = input.value.trim().toLowerCase()
@@ -100,6 +101,8 @@ function analyseInput() {
     if (guess === secret) {
         tentativasList[tentativas] = guess
         tentativas++
+        input.value = ''
+        gameEnded = 1
         renderBoard()
         return
     } else {
