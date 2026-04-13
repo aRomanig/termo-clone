@@ -7,9 +7,8 @@ const wordList = ["carta", "porta", "vento", "luzer", "pedra",
   "força", "lento", "rapaz", "moeda", "valor",
   "tempo", "magia", "raiva", "poder", "sabor",
   "pazez", "ideia", "etica", "honra", "justo"]
-let running = 1
-//const secret = wordList[getRandomIntInclusive(0, wordList.length - 1)]
-const secret = 'carta'
+const secret = wordList[getRandomIntInclusive(0, wordList.length - 1)]
+ //const secret = 'carta'
 console.log(`DEBUG: A palavra secreta é ${secret}`)
 let tentativas = 0
 let tentativasList = [] 
@@ -48,7 +47,6 @@ function renderBoard() {
         for (let i = 0; i < tentativas; i++) {
             console.log(tentativasList[i])
             console.log(renderGuess(tentativasList[i]))
-            renderKeyboard()
         }
     }
     for (let i = 0; i < tentativas; i++) {
@@ -101,18 +99,22 @@ function renderGuess(word) {
 
 
 function analyseInput() {
-    let guess = prompt('Digite a palavra (5 letras:)').toLowerCase()
+    let guess = document.getElementById('guessInput').value.trim().toLowerCase()
     if (!guess) return
     if (guess.length != 5) return
     if (guess === secret) {
-        alert('Parabéns, você acertou a palavra secreta!')
-        running = false
+        tentativasList[tentativas] = guess
+        tentativas++
+        renderBoard()
+        return
     } else {
         tentativasList[tentativas] = guess
         tentativas ++
     }
     let result = renderGuess(guess)
     updateKeyboard(guess, result)
+    renderBoard()
+    document.getElementById('guessInput').value = ''
 }
 
 function updateKeyboard(word, result) {

@@ -8,7 +8,7 @@ body {
 #board {
     width: 300px;
     margin: 20px auto;
-    min-height: 700px;
+    min-height: 500px;
     justify-content: center;
 }
 
@@ -49,4 +49,49 @@ body {
 
 .gray {
     background-color: #475569;
+}
+
+#inputContainer {
+    display: flex;
+    margin: auto;
+    gap: 10px;
+    justify-content: center;
+}
+
+#guessInput {
+    background-color: #1e293b;
+    border: 2px solid #334155;
+    height: 40px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 250px;
+    color: #e2e8f0;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+#guessInput:hover {
+    cursor: pointer;
+}
+
+#guessInput:focus {
+    outline: none;
+    border-color: #e2e8f0;
+}
+
+#submit {
+    background-color: #1e293b;
+    border: 2px solid #334155;
+    height: 60px;
+    padding: 20px;
+    width: 100px;
+    border-radius: 10px;
+    color: #e2e8f0;
+    font-weight: bolder;
+}
+
+#submit:hover {
+    background-color: #334155;
+    cursor: pointer;
 }
