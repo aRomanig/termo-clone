@@ -20,6 +20,19 @@ for (let letter of alphabet) {
     keyboardState[letter] = "⬜"
 }
 
+const board = document.getElementById('board')
+
+for (let i = 0; i < 6; i++) {
+    let row = document.createElement('div')
+    row.classList.add('row')
+    for (let j = 0; j < 5; j++) {
+        let cell = document.createElement('div')
+        cell.classList.add('cell')
+        row.appendChild(cell)
+    }
+    board.appendChild(row)
+}
+
 function getRandomIntInclusive(min, max) {
   const minCeiled = Math.ceil(min);
   const maxFloored = Math.floor(max);
