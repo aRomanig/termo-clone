@@ -17,7 +17,7 @@ const keyboardState = {}
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
 for (let letter of alphabet) {
-    keyboardState[letter] = "⬜"
+    keyboardState[letter] = "w"
 }
 
 const board = document.getElementById('board')
@@ -40,6 +40,7 @@ function getRandomIntInclusive(min, max) {
 }
 
 function renderBoard() {
+    const rowList = document.querySelectorAll('.row')
     console.clear()
     if (!tentativas) {
         console.log('Insira seu primeiro chute!')
@@ -50,24 +51,46 @@ function renderBoard() {
             renderKeyboard()
         }
     }
+    for (let i = 0; i < tentativas; i++) {
+        let cellList = rowList[i].children
+        let tentativaSplit = tentativasList[i].split('')
+        let result = renderGuess(tentativasList[i])
+        for (let j = 0; j < 5; j++) {
+            cellList[j].textContent = tentativaSplit[j]
+            switch (result[j]) {
+                case 'g':
+                    cellList[j].classList.remove('yellow', 'gray')
+                    cellList[j].classList.add('green')
+                    break;
+                case 'y':
+                    cellList[j].classList.remove('green', 'gray')
+                    cellList[j].classList.add('yellow')
+                    break;
+                case 'b':
+                    cellList[j].classList.remove('green', 'yellow')
+                    cellList[j].classList.add('gray')
+                    break;
+            }
+        }
+    }
 }
 
 function renderGuess(word) {
-    let result = Array(5).fill('⬛')
+    let result = Array(5).fill('b')
     let secretCopy = secret.split('')
     for (let i = 0; i < 5; i++) {
         if (word[i] === secret[i]) {
-            result[i] = '🟩'
+            result[i] = 'g'
             secretCopy[i] = null
         }
     }
 
     for (let i = 0; i < 5; i++) {
-        if (result[i] === '⬛') {
+        if (result[i] === 'b') {
             let index = secretCopy.indexOf(word[i])
 
             if (index !== -1) {
-                result[i] = '🟨'
+                result[i] = 'y'
                 secretCopy[index] = null
             }
         }
@@ -97,12 +120,12 @@ function updateKeyboard(word, result) {
         const letter = word[i]
         const status = result[i]
 
-        if (status === '🟩') {
-            keyboardState[letter] = '🟩'
-        } else if (status === '🟨' && keyboardState[letter] != '🟩') {
-            keyboardState[letter] = '🟨'
-        } else if (keyboardState[letter] != '🟨' && keyboardState[letter] != '🟩' && keyboardState[letter] == '⬜') {
-            keyboardState[letter] = '⬛'
+        if (status === 'g') {
+            keyboardState[letter] = 'g'
+        } else if (status === 'y' && keyboardState[letter] != 'g') {
+            keyboardState[letter] = 'y'
+        } else if (keyboardState[letter] != 'y' && keyboardState[letter] != 'g' && keyboardState[letter] == 'w') {
+            keyboardState[letter] = 'b'
         }
     }
 }
@@ -126,8 +149,4 @@ function renderKeyboard() {
     renderRow(row3)
 }
 
-while (running) {
-    renderBoard()
-    analyseInput()
-}
-
+renderBoard()
