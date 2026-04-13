@@ -14,6 +14,7 @@ let tentativas = 0
 let tentativasList = [] 
 const keyboardState = {}
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+const input = document.getElementById('guessInput')
 
 for (let letter of alphabet) {
     keyboardState[letter] = "w"
@@ -40,15 +41,6 @@ function getRandomIntInclusive(min, max) {
 
 function renderBoard() {
     const rowList = document.querySelectorAll('.row')
-    console.clear()
-    if (!tentativas) {
-        console.log('Insira seu primeiro chute!')
-    } else {
-        for (let i = 0; i < tentativas; i++) {
-            console.log(tentativasList[i])
-            console.log(renderGuess(tentativasList[i]))
-        }
-    }
     for (let i = 0; i < tentativas; i++) {
         let cellList = rowList[i].children
         let tentativaSplit = tentativasList[i].split('')
@@ -99,7 +91,10 @@ function renderGuess(word) {
 
 
 function analyseInput() {
-    let guess = document.getElementById('guessInput').value.trim().toLowerCase()
+    if (tentativas > 5) {
+        return
+    }
+    let guess = input.value.trim().toLowerCase()
     if (!guess) return
     if (guess.length != 5) return
     if (guess === secret) {
@@ -114,7 +109,7 @@ function analyseInput() {
     let result = renderGuess(guess)
     updateKeyboard(guess, result)
     renderBoard()
-    document.getElementById('guessInput').value = ''
+    input.value = ''
 }
 
 function updateKeyboard(word, result) {
@@ -142,13 +137,16 @@ function renderKeyboard() {
         for (let letter of row) {
             output += keyboardState[letter] + " "
         }
-        console.log(output)
     }
-
-    console.log("\nTeclado:")
     renderRow(row1)
     renderRow(row2)
     renderRow(row3)
 }
 
-renderBoard()
+input.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault()
+        analyseInput()
+    }
+    input.focus()
+})
