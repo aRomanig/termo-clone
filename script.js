@@ -58,15 +58,15 @@ function renderBoard() {
             switch (result[j]) {
                 case 'g':
                     cellList[j].classList.remove('yellow', 'gray')
-                    cellList[j].classList.add('green')
+                    cellList[j].classList.add('green', 'filled')
                     break;
                 case 'y':
                     cellList[j].classList.remove('green', 'gray')
-                    cellList[j].classList.add('yellow')
+                    cellList[j].classList.add('yellow', 'filled')
                     break;
                 case 'b':
                     cellList[j].classList.remove('green', 'yellow')
-                    cellList[j].classList.add('gray')
+                    cellList[j].classList.add('gray', 'filled')
                     break;
             }
         }
